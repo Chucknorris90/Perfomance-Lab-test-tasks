@@ -8,12 +8,12 @@ public class Task2 {
 
 	public static void main(String[] args) throws IOException {
 		
-		Scanner file = new Scanner (new File(args[6]));
+		Scanner file = new Scanner (new File(args[0]));
 		String coords = file.nextLine();
 		
 		Pattern pattern = Pattern.compile("line.+?\\}");
 	    Matcher m=pattern.matcher(coords);
-	    System.out.println(m.find()? m.group():"I found nothing!");
+	    if (m.find()) {m.group();}
 	    String line = m.group();
 	    
 	    pattern = Pattern.compile("center.+?\\]");
@@ -39,6 +39,17 @@ public class Task2 {
 	    		centr[i]=cntr.substring(m.start(), m.end());	    		
 	    	}
 	    }
+	    
+	    pattern = Pattern.compile("[\\-[0-9]\\.]+");
+	    m=pattern.matcher(line);
+	    String [] linecoord = new String [6];
+	    for (int i = 0; i < 6; i++) {
+	    	if (m.find()) {
+	    		linecoord[i]=line.substring(m.start(), m.end());	    		
+	    	}
+	    }
+
+	    
 	
 	    
 		// Setting circle center & radius
@@ -51,13 +62,13 @@ public class Task2 {
 
         // Setting points of lines        
         
-        double px = Double.parseDouble(args[0]);
-        double py = Double.parseDouble(args[1]);
-        double pz = Double.parseDouble(args[2]);
+        double px = Double.parseDouble(linecoord[0]);
+        double py = Double.parseDouble(linecoord[1]);
+        double pz = Double.parseDouble(linecoord[2]);
 
-        double vx = Double.parseDouble(args[3]);
-        double vy = Double.parseDouble(args[4]);
-        double vz = Double.parseDouble(args[5]);
+        double vx = Double.parseDouble(linecoord[3]);
+        double vy = Double.parseDouble(linecoord[4]);
+        double vz = Double.parseDouble(linecoord[5]);
 		
         double A = vx * vx + vy * vy + vz * vz;
         double B = 2.0 * (px * vx + py * vy + pz * vz - vx * cx - vy * cy - vz * cz);
